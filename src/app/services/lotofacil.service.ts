@@ -8,6 +8,8 @@ import { AnaliseFaixaConcurso } from '../models/analise-faixa-concurso';
 import { ResumoFaixa } from '../models/resumo-faixa';
 import { AnaliseRepeticaoConcurso } from '../models/analise-repeticao-concurso';
 import { ResumoRepeticao } from '../models/resumo-repeticao';
+import { ConfiguracaoGerador } from '../models/configuracao-gerador';
+import { JogoGerado } from '../models/jogo-gerado';
 
 @Injectable({
   providedIn: 'root',
@@ -212,5 +214,92 @@ export class LotofacilService {
 
     resumo.sort((a, b) => b.quantidadeConcursos - a.quantidadeConcursos);
     return resumo;
+  }
+
+  private isPar(numero: number): boolean {
+    return numero % 2 === 0;
+  }
+
+  private isImpar(numero: number): boolean {
+    return numero % 2 !== 0;
+  }
+
+  private isBaixo(numero: number): boolean {
+    return numero <= 13;
+  }
+
+  private isAlto(numero: number): boolean {
+    return numero > 13 && numero <= 25;
+  }
+
+  private criarResumoJogo(numeros: number[]): JogoGerado {
+    const totalPares = numeros.filter((numero) => this.isPar(numero)).length;
+    const totalImpares = numeros.filter((numero) =>
+      this.isImpar(numero),
+    ).length;
+    const totalBaixos = numeros.filter((numero) => this.isBaixo(numero)).length;
+    const totalAltos = numeros.filter((numero) => this.isAlto(numero)).length;
+
+    return {
+      numeros: [...numeros].sort((a, b) => a - b),
+      totalPares,
+      totalImpares,
+      totalBaixos,
+      totalAltos,
+    };
+  }
+
+  gerarJodoOtimizandoPorFrequencia(config: ConfiguracaoGerador): JogoGerado {
+    const frequencias = this.getFrequenciaNumeros();
+    const jogo: number[] = [];
+
+    let paresSelecionados = 0;
+    let imparesSelecionados = 0;
+    let baixosSelecionados = 0;
+    let altosSelecionados = 0;
+
+    for (const item of frequencias) {
+      const numero = item.numero;
+
+      if (jogo.includes(numero)) {
+        continue;
+      }
+      const numeroEhPar = this.isPar(numero);
+      const numeroEhImpar = this.isImpar(numero);
+      const numeroEhBaixo = this.isBaixo(numero);
+      const numeroEhAlto = this.isAlto(numero);
+
+      if (numeroEhPar && paresSelecionados >= config.quantidadePares) {
+        continue;
+      }
+      if (numeroEhImpar && imparesSelecionados >= config.quantidadeImpares) {
+        continue;
+      }
+      if (numeroEhBaixo && baixosSelecionados >= config.quantidadeBaixos) {
+        continue;
+      }
+      if (numeroEhAlto && altosSelecionados >= config.quantidadeAltos) {
+        continue;
+      }
+      jogo.push(numero);
+
+      if (numeroEhPar) {
+        paresSelecionados++;
+      }
+      if (numeroEhImpar) {
+        imparesSelecionados++;
+      }
+      if (numeroEhBaixo) {
+        baixosSelecionados++;
+      }
+      if (numeroEhAlto) {
+        altosSelecionados++;
+      }
+
+      if (jogo.length === config.quantidadeNumeros) {
+        break;
+      }
+    }
+    return this.criarResumoJogo(jogo);
   }
 }

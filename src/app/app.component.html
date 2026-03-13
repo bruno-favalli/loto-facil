@@ -1,6 +1,28 @@
 <h1>{{ title }}</h1>
 
 <section class="bloco">
+  <h2>Jogo Gerado por Frequencia</h2>
+  <div class="jogo-gerado-card" *ngIf="jogoGerado">
+    <h3>Jogo Gerado Otimizando por Frequência</h3>
+    <div class="bolas">
+      <span
+        class="bola destaque-jogo"
+        *ngFor="let numero of jogoGerado.numeros"
+      >
+        {{ numero }}
+      </span>
+    </div>
+
+    <div class="resumo-jogo">
+      <p><strong>Pares: </strong> {{ jogoGerado.totalPares }}</p>
+      <p><strong>Ímpares: </strong> {{ jogoGerado.totalImpares }}</p>
+      <p><strong>Baixos: </strong> {{ jogoGerado.totalBaixos }}</p>
+      <p><strong>Altos: </strong> {{ jogoGerado.totalAltos }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="bloco">
   <h2>Resumo estastico dos Números</h2>
 
   <div class="resumo-grid">

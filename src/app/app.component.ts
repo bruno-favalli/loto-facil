@@ -10,6 +10,8 @@ import { AnaliseFaixaConcurso } from './models/analise-faixa-concurso';
 import { ResumoFaixa } from './models/resumo-faixa';
 import { AnaliseRepeticaoConcurso } from './models/analise-repeticao-concurso';
 import { ResumoRepeticao } from './models/resumo-repeticao';
+import { ConfiguracaoGerador } from './models/configuracao-gerador';
+import { JogoGerado } from './models/jogo-gerado';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +32,15 @@ export class AppComponent {
   numerosMaisFrequentes: FrequenciaNumero[] = [];
   numerosMenosFrequentes: FrequenciaNumero[] = [];
 
+  configuracaoGerador: ConfiguracaoGerador = {
+    quantidadeNumeros: 15,
+    quantidadePares: 7,
+    quantidadeImpares: 8,
+    quantidadeBaixos: 8,
+    quantidadeAltos: 7,
+  };
+  jogoGerado: JogoGerado | null = null;
+
   constructor(private lotofacilService: LotofacilService) {
     this.historico = this.lotofacilService.getHistorico();
     this.frequencias = this.lotofacilService.getFrequenciaNumeros();
@@ -44,5 +55,8 @@ export class AppComponent {
     this.analiseRepeticao =
       this.lotofacilService.getAnaliseRepeticaoPorConcurso();
     this.resumoRepeticao = this.lotofacilService.getResumoRepeticao();
+    this.jogoGerado = this.lotofacilService.gerarJodoOtimizandoPorFrequencia(
+      this.configuracaoGerador,
+    );
   }
 }
