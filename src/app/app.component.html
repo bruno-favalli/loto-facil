@@ -1,24 +1,248 @@
 <h1>{{ title }}</h1>
 
 <section class="bloco">
-  <h2>Jogo Gerado por Frequencia</h2>
-  <div class="jogo-gerado-card" *ngIf="jogoGerado">
-    <h3>Jogo Gerado Otimizando por Frequência</h3>
-    <div class="bolas">
-      <span
-        class="bola destaque-jogo"
-        *ngFor="let numero of jogoGerado.numeros"
-      >
-        {{ numero }}
-      </span>
+  <h2>Jogo Gerado com diversidade</h2>
+
+  <section class="bloco">
+    <h2>Configurações do Gerador</h2>
+
+    <form class="form-configuracoes" (ngSubmit)="aplicarConfigucoes()">
+      <div class="form-grid">
+        <div class="campo-formulario">
+          <label for="quantidadeNumeros">Quantidade de Números</label>
+          <input
+            type="number"
+            id="quantidadeNumeros"
+            [(ngModel)]="configuracaoGerador.quantidadeNumeros"
+            name="quantidadeNumeros"
+            min="15"
+            max="20"
+          />
+        </div>
+
+        <div class="campo-formulario">
+          <label for="quantidadePares">Quantidade de Pares</label>
+          <input
+            type="number"
+            id="quantidadePares"
+            [(ngModel)]="configuracaoGerador.quantidadePares"
+            name="quantidadePares"
+            min="0"
+            max="20"
+          />
+        </div>
+
+        <div class="campo-formulario">
+          <label for="quantidadeImpares">Quantidade de Ímpares</label>
+          <input
+            type="number"
+            id="quantidadeImpares"
+            [(ngModel)]="configuracaoGerador.quantidadeImpares"
+            name="quantidadeImpares"
+            min="0"
+            max="20"
+          />
+        </div>
+
+        <div class="campo-formulario">
+          <label for="quantidadeBaixos">Quantidade de Baixos</label>
+          <input
+            type="number"
+            id="quantidadeBaixos"
+            [(ngModel)]="configuracaoGerador.quantidadeBaixos"
+            name="quantidadeBaixos"
+            min="0"
+            max="20"
+          />
+        </div>
+
+        <div class="campo-formulario">
+          <label for="quantidadeAltos">Quantidade de Altos</label>
+          <input
+            type="number"
+            id="quantidadeAltos"
+            [(ngModel)]="configuracaoGerador.quantidadeAltos"
+            name="quantidadeAltos"
+            min="0"
+            max="20"
+          />
+        </div>
+
+        <div class="campo-formulario">
+          <label for="quantidadeJogos">Quantidade de Jogos</label>
+          <input
+            type="number"
+            id="quantidadeJogos"
+            [(ngModel)]="configuracaoGeracaoMultipla.quantidadeJogos"
+            name="quantidadeJogos"
+            min="1"
+            max="20"
+          />
+        </div>
+
+        <div class="campo-formulario">
+          <label for="maximoRepetidos">Maximo de repetiçao entre jogos</label>
+          <input
+            type="number"
+            id="maximoRepetidos"
+            [(ngModel)]="
+              configuracaoGeracaoMultipla.maximoNumeroRepetidosEntreJogos
+            "
+            name="maximoRepetidos"
+            min="0"
+            max="15"
+          />
+        </div>
+      </div>
+
+      <div class="acoes-formulario">
+        <button type="submit" class="botao-gerar">
+          Aplicar Configurações e gerar jogos
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="bloco">
+    <h2>Perfis de Geração</h2>
+
+    <div class="lista-perfis">
+      <div class="lista-perfis">
+        <div class="perfil-card" *ngFor="let perfil of perfisGeracao">
+          <h3>{{ perfil.nome }}</h3>
+          <p>
+            <strong>Quantidade de Jogos: </strong> {{ perfil.quantidadeJogos }}
+          </p>
+          <p><strong>Configurações: </strong></p>
+
+          <ul>
+            <li>
+              <strong>Quantidade de Números: </strong>
+              {{ perfil.configuracao.quantidadeNumeros }}
+            </li>
+            <li>
+              <strong>Quantidade de Pares: </strong>
+              {{ perfil.configuracao.quantidadePares }}
+            </li>
+            <li>
+              <strong>Quantidade de Ímpares: </strong>
+              {{ perfil.configuracao.quantidadeImpares }}
+            </li>
+            <li>
+              <strong>Quantidade de Baixos: </strong>
+              {{ perfil.configuracao.quantidadeBaixos }}
+            </li>
+            <li>
+              <strong>Quantidade de Altos: </strong>
+              {{ perfil.configuracao.quantidadeAltos }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="jogo-gerado-card" *ngIf="jogosGerados">
+    <div class="acoes-jogo">
+      <button class="botao-gerar" type="button" (click)="gerarNovosJogos()">
+        Gerar Novo Jogo
+      </button>
     </div>
 
-    <div class="resumo-jogo">
-      <p><strong>Pares: </strong> {{ jogoGerado.totalPares }}</p>
-      <p><strong>Ímpares: </strong> {{ jogoGerado.totalImpares }}</p>
-      <p><strong>Baixos: </strong> {{ jogoGerado.totalBaixos }}</p>
-      <p><strong>Altos: </strong> {{ jogoGerado.totalAltos }}</p>
+    <div class="status-geracao" *ngIf="resultadoGeracaoMultipla">
+      <p>
+        <strong>Quantidade Solicitada: </strong>
+        {{ resultadoGeracaoMultipla.quantidadeSolicitada }}
+      </p>
+
+      <p>
+        <strong>Quantidade Gerada: </strong>
+        {{ resultadoGeracaoMultipla.quantidadeGerada }}
+      </p>
+
+      <p>
+        <strong>Tentativas Realizadas: </strong>
+        {{ resultadoGeracaoMultipla.tentativasRealizadas }}
+      </p>
+
+      <p></p>
+      <div
+        [ngClass]="
+          resultadoGeracaoMultipla.sucessoCompleto ? 'sucesso' : 'alerta'
+        "
+      >
+        <strong>Status: </strong>
+        {{
+          resultadoGeracaoMultipla.sucessoCompleto
+            ? "Sucesso Completo"
+            : "Limite de Tentativas Atingido"
+        }}
+      </div>
     </div>
+
+    <div class="lista-jogos-gerados">
+      <div
+        class="jogo-gerado-card"
+        *ngFor="let jogo of jogosGerados; let i = index"
+      >
+        <h3>Jogo {{ i + 1 }}</h3>
+        <div class="bolas">
+          <span class="bola" *ngFor="let numero of jogo.numeros">
+            {{ numero }}
+          </span>
+        </div>
+        <div class="resumo-jogo">
+          <p><strong>Pares: </strong> {{ jogo.totalPares }}</p>
+          <p><strong>Ímpares: </strong> {{ jogo.totalImpares }}</p>
+          <p><strong>Baixos: </strong> {{ jogo.totalBaixos }}</p>
+          <p><strong>Altos: </strong> {{ jogo.totalAltos }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bloco" *ngIf="jogosGerados.length > 0">
+  <h2>Matriz de Repetição entre Jogos Gerados</h2>
+
+  <div class="legenda-matriz">
+    <div class="item-legenda">
+      <span class="cor-legenda baixa"></span>
+      <span>Baixa Repetição (0-6)</span>
+    </div>
+    <div class="item-legenda">
+      <span class="cor-legenda media"></span>
+      <span>Média Repetição (7-9)</span>
+    </div>
+    <div class="item-legenda">
+      <span class="cor-legenda alta"></span>
+      <span>Alta Repetição (10 ou mais)</span>
+    </div>
+  </div>
+
+  <div class="tabela-wrapper">
+    <table class="tabela-matriz">
+      <thead>
+        <tr>
+          <th>Jogo</th>
+          <th *ngFor="let jogo of jogosGerados; let i = index">
+            Jogo {{ i + 1 }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let linha of matrizRepeticaoEntreJogos; let i = index">
+          <td class="titulo-linha">{{ linha.nomeJogo }}</td>
+
+          <td
+            *ngFor="let valor of linha.valores; let j = index"
+            [ngClass]="getClasseCelulaMatriz(valor, i, j)"
+          >
+            {{ getTextoCelulaMatriz(valor, i, j) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 

@@ -22,6 +22,200 @@ h3 {
   color: #374151;
 }
 
+.lista-jogos-gerados {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.acoes-jogo {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+
+  .botao-gerar {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+
+    &:hover {
+      background-color: #1d4ed8;
+    }
+  }
+}
+.form-configuracoes {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: 14px;
+    color: #4b5563;
+  }
+
+  input {
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+
+    &:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
+  }
+}
+
+.legenda-matriz {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.item-legenda {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.cor-legenda {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-block;
+
+  &.baixa {
+    background-color: #dcfce7;
+    border: 1px solid #16a34a;
+  }
+  &.media {
+    background-color: #fef3c7;
+    border: 1px solid #f59e0b;
+  }
+  &.alta {
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+  }
+}
+
+.lista-perfis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.perfil-card {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  h3 {
+    margin-top: 0;
+    color: #2563eb;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 14px;
+    color: #4b5563;
+    margin: 0;
+  }
+}
+
+.tabela-matriz {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  th,
+  td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+    color: #1f2937;
+  }
+
+  th {
+    background-color: #eef2ff;
+    color: #1f2937;
+  }
+
+  tbody tr:hover {
+    background-color: #f9fafb;
+  }
+
+  .titulo-linha {
+    font-weight: 700;
+    color: #f9fafb;
+    text-align: left;
+    color: #1f2937;
+  }
+  .celula-diagonal {
+    background-color: #e0f2fe;
+  }
+  .celula-baixa-repeticao {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+
+  .celula-media-repeticao {
+    background-color: #fef3c7;
+    color: #f59e0b;
+  }
+
+  .celula-alta-repeticao {
+    background-color: #fee2e2;
+    color: #ef4444;
+  }
+}
+
+.acoes-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+
+  .botao-gerar {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+
+    &:hover {
+      background-color: #1d4ed8;
+    }
+  }
+}
 .jogo-gerado-card {
   background-color: #ffffff;
   border: 1px solid #d1d5db;
